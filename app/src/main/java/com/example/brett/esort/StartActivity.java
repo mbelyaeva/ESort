@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.Window;
 
 public class StartActivity extends Activity {
+    TextView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
     }
 
     public void OnLoginClick(View view) {
