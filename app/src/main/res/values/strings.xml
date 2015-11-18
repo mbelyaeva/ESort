@@ -28,4 +28,7 @@
     <string name="error_mismatched_passwords">Passwords do not match</string>
     <string name="ApplicationId">Py4qIlkam7AMV9kJD2JJUSvEZ37txStfYucXATOu</string>
     <string name="ClientKey">UkSXqKtavufn4cmf6baJ9PUK8cKU1wnPtL3MqcxT</string>
+    <string name="DrawerMenuSettings">Settings</string>
+    <string name="DrawerMenuLogout">Logout</string>
+    <string name="DrawerHeaderAccount">Account</string>
 </resources>
