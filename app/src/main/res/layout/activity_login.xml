@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         android:text="@string/submitText"
         android:id="@+id/loginButton"
-        android:onClick="OnLoginClick"
         android:layout_gravity="center_horizontal" />
 
 

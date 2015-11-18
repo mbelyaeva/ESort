@@ -21,4 +21,11 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+    <string name="error_intro">What is this idk</string>
+    <string name="error_blank_username">Username is Required</string>
+    <string name="error_blank_password">Password is Required</string>
+    <string name="error_blank_confirm">Please confirm your password</string>
+    <string name="error_mismatched_passwords">Passwords do not match</string>
+    <string name="ApplicationId">Py4qIlkam7AMV9kJD2JJUSvEZ37txStfYucXATOu</string>
+    <string name="ClientKey">UkSXqKtavufn4cmf6baJ9PUK8cKU1wnPtL3MqcxT</string>
 </resources>
