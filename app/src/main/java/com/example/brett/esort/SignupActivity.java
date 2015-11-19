@@ -98,6 +98,7 @@ public class SignupActivity extends AppCompatActivity {
                             Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
+
             }
         });
 

@@ -7,7 +7,7 @@
     <string name="loginButtonText">Login</string>
     <string name="signUpButtonText">Sign Up</string>
     <string name="LoginLabel">Login</string>
-    <string name="ConfirmPassHint">Password (Again)</string>
+    <string name="ConfirmPassHint">Confirm Password</string>
     <string name="SignUpLabel">Sign Up</string>
     <string name="title_activity_my_orgs">MyOrgsActivity</string>
 
