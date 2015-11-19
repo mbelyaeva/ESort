@@ -20,7 +20,8 @@
 
     <string name="action_example">Example Action</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_Join">Join</string>
+    <string name="action_Make">Make</string>
     <string name="error_intro">Something Went Wrong</string>
     <string name="error_blank_username">Username is Required</string>
     <string name="error_blank_password">Password is Required</string>

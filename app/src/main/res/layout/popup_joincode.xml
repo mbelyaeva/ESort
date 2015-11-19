@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:src="@drawable/badasslogo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:scaleType="center"
+        android:contentDescription="@string/app_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Your Join Code Is"
+        android:id="@+id/codeText"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="CODE"
+        android:id="@+id/code"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"/>
+
+
+    <!--http://developer.android.com/guide/topics/ui/dialogs.html#AlertDialog-->
+
+</LinearLayout>
