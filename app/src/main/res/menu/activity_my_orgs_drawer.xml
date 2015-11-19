@@ -14,9 +14,22 @@
 
     <item android:title="@string/DrawerHeaderAccount">
         <menu>
-            <item android:id="@+id/nav_settings" android:icon="@android:drawable/ic_menu_share"
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@android:drawable/ic_menu_share"
                 android:title="@string/DrawerMenuSettings" />
-            <item android:id="@+id/nav_logout" android:icon="@android:drawable/ic_menu_send"
+            <item
+                android:id="@+id/nav_my_teams"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/DrawerMyTeams" />
+            <item
+                android:id="@+id/nav_team_im_in"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/DrawerTeamsImIn" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_menu_send"
                 android:title="@string/DrawerMenuLogout" />
         </menu>
     </item>
