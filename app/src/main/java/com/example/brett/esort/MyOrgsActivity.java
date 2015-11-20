@@ -1,5 +1,6 @@
 package com.example.brett.esort;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,8 @@ import com.parse.ParseUser;
 
 public class MyOrgsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public String popUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,16 @@ public class MyOrgsActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        com.example.brett.esort.popUp newClass = new popUp();
+        //ft.add(R.id.content, ft);
+        ft.commit();
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_Join) {
+            popUp = "join";
+        } else if (id == R.id.action_Make){
+            popUp = "make";
         }
 
         return super.onOptionsItemSelected(item);

@@ -12,10 +12,17 @@ import android.view.LayoutInflater;
  */
 public class popUp extends DialogFragment {
 
+    private String popUp;
+
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        if (popUp.equals("make")){
 
+        }else if (popUp.equals("join")){
+
+        }
+        return null;
     }
 }
