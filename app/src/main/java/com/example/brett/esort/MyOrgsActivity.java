@@ -14,12 +14,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class MyOrgsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private OrgsListAdapter mAdapter;
     public String popUp;
 
     @Override
@@ -29,15 +43,6 @@ public class MyOrgsActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -46,6 +51,42 @@ public class MyOrgsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mAdapter = new OrgsListAdapter(this);
+
+        // ListViews display data in a scrollable list
+        ListView theListView = (ListView) findViewById(R.id.myOrgsList);
+
+        // Tells the ListView what data to use
+        theListView.setAdapter(mAdapter);
+
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String tvShowPicked = "You selected " +
+                        String.valueOf(adapterView.getItemAtPosition(i));
+
+                Toast.makeText(MyOrgsActivity.this, tvShowPicked, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserOrg");
+        query.whereEqualTo("user_id", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects != null && objects.size() > 0) {
+
+                    for(ParseObject object : objects)
+                    {
+                        //ParseObject org = new ParseObject("Organization");
+                        mAdapter.addItem("Class");
+                    }
+                } else {
+                }
+            }
+        });
     }
 
     @Override
@@ -96,17 +137,7 @@ public class MyOrgsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_logout) {
+        if (id == R.id.nav_logout) {
             doLogout();
         }
 
