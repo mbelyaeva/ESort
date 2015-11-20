@@ -15,6 +15,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -93,24 +95,24 @@ public class PopUpFragment extends DialogFragment {
     public void join(DialogInterface dialog){
         inputText = (EditText) ( (AlertDialog)dialog ).findViewById(R.id.joinCode);
         //check that this passcode exists
-        System.out.println("blah");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Organization");
         query.whereEqualTo("code", Integer.valueOf(inputText.getText().toString()));
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                System.out.println("doneeeeee");
                 if(objects != null && objects.size() > 0){
                     //add person to the class
-                    ParseObject myOrg = objects.get(0);
+                    ParseObject org = objects.get(0);
+                    ParseUser user = ParseUser.getCurrentUser();
 
-
-//                    Toast.makeText(getActivity().getApplicationContext(), "cats :3 meowwww",
-//                            Toast.LENGTH_LONG).show();
+                    ParseObject user_org = new ParseObject("UserOrg");
+                    user_org.put("user_id", user);
+                    user_org.put("org_id", org);
+                    user_org.saveInBackground();
                 }
                 else {
-                    //Toast.makeText(getActivity().getApplicationContext(), "Sorry, that doesn't match anything we have.",
-                    //        Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), "Sorry, that doesn't match anything we have.",
+//                            Toast.LENGTH_LONG).show();
                 }
 //                listener.getTagsByNameCallback(tagname, objects);
             }
