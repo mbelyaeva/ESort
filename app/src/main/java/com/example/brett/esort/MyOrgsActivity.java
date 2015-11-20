@@ -1,11 +1,11 @@
 package com.example.brett.esort;
 
-import android.app.FragmentTransaction;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -72,16 +72,19 @@ public class MyOrgsActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        com.example.brett.esort.popUp newClass = new popUp();
-        //ft.add(R.id.content, ft);
-        ft.commit();
+        PopUpFragment popUp = new PopUpFragment();
+        Bundle typeBundle = new Bundle();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_Join) {
-            popUp = "join";
+            typeBundle.putString("type", "join");
+            popUp.setArguments(typeBundle);
+            popUp.show(getFragmentManager(), "");
+
         } else if (id == R.id.action_Make){
-            popUp = "make";
+            typeBundle.putString("type", "make");
+            popUp.setArguments(typeBundle);
+            popUp.show(getFragmentManager(), "");
         }
 
         return super.onOptionsItemSelected(item);
