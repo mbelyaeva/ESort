@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
@@ -19,17 +22,19 @@ public class OrgsListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     public OrgsListAdapter(Context mContext) {
-            mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            }
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-    public void addItem(final String item) {
-            mData.add(item);
-            notifyDataSetChanged();
-            }
+    public void addItem(final ParseObject item) {
+        mData.add(item);
+        notifyDataSetChanged();
+    }
+
     public void removeItem(int position) {
-            mData.remove(position);
-            notifyDataSetChanged();
-            }
+        mData.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public long getItemId(int position) {
             return mData.get(position).hashCode();
@@ -45,20 +50,23 @@ public class OrgsListAdapter extends BaseAdapter {
             }
 
     protected LinearLayout makeView(LinearLayout theView, int position, ViewGroup parent) {
-            // We retrieve the text from the array
-            String text = (String) String.valueOf(getItem(position));
+        ParseObject org = (ParseObject)getItem(position);
 
-            // Get the TextView we want to edit
-            TextView theTextView = (TextView) theView.findViewById(R.id.picTextRowText);
-            // Put the next TV Show into the TextView
-            theTextView.setText(text);
-            // Get the ImageView in the layout
-            ImageView theImageView = (ImageView) theView.findViewById(R.id.picTextRowPic);
-            // We can set a ImageView like this
-            theImageView.setImageResource(R.drawable.badasslogo);
+        // We retrieve the text from the array
+        String name = "" + org.getString("name");
+        String code = "Join Code: " + (org.getInt("code"));
 
-            return theView;
-            }
+        TextView orgName = (TextView) theView.findViewById(R.id.orgRowName);
+        orgName.setText(name);
+
+        TextView orgCode = (TextView) theView.findViewById(R.id.orgRowCode);
+        orgCode.setText(code);
+
+        ImageView theImageView = (ImageView) theView.findViewById(R.id.orgRowPic);
+        theImageView.setImageResource(R.drawable.badasslogo);
+
+        return theView;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -68,6 +76,7 @@ public class OrgsListAdapter extends BaseAdapter {
             } else {
                 view = (LinearLayout) convertView;
             }
+            view.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, 160));
             view = makeView(view, position, parent);
             return view;
     }

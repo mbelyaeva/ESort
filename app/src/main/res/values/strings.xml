@@ -9,7 +9,7 @@
     <string name="LoginLabel">Login</string>
     <string name="ConfirmPassHint">Confirm Password</string>
     <string name="SignUpLabel">Sign Up</string>
-    <string name="title_activity_my_orgs">MyOrgsActivity</string>
+    <string name="title_activity_my_orgs">My Organizations</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

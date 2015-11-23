@@ -1,5 +1,6 @@
 package com.example.brett.esort;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -27,6 +29,29 @@ public class PopUpFragment extends DialogFragment {
 
     private String type;
     EditText inputText;
+    final int MAX_JOIN_CODE = 999999;
+
+    private PopupDialogListener mListener;
+
+    public interface PopupDialogListener {
+        public void onDialogJoinTeamSuccess(ParseObject org);
+        public void onDialogJoinTeamFailure(String err);
+        public void onDialogMakeTeamSuccess(ParseObject org);
+        public void onDialogMakeTeamFailure(String err);
+        public void onDialogCancel();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (PopupDialogListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement PopupDialogListener");
+        }
+    }
+
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -52,17 +77,9 @@ public class PopUpFragment extends DialogFragment {
 
         builder.setView(inflater.inflate(layout_id, null));
 
-
-                // Add action buttons
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                // 1. Read Class Name from edit text
-                // 2. Generate a (Unique) Join Code
-                // 3. Make Organization Class with Name and Join Code
-                // 4. Tell Parse
-                // 5. Exit Dialogue
-                // 6. Show Join code
                 if(type.equals("make")) {
                     make(dialog);
                 }
@@ -76,6 +93,7 @@ public class PopUpFragment extends DialogFragment {
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                mListener.onDialogCancel();
                 PopUpFragment.this.getDialog().cancel();
             }
         });
@@ -86,10 +104,26 @@ public class PopUpFragment extends DialogFragment {
 
     public void make(DialogInterface dialog){
         inputText = (EditText) ( (AlertDialog)dialog).findViewById(R.id.orgName);
-        ParseObject org = new ParseObject("Organization");
+        final ParseObject org = new ParseObject("Organization");
         org.put("name", inputText.getText().toString());
-        org.put("code", 1234);
-        org.saveInBackground();
+        org.put("code", generateJoinCode(org));
+        org.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    ParseObject user_org = new ParseObject("UserOrg");
+                    user_org.put("user_id", ParseUser.getCurrentUser());
+                    user_org.put("org_id", org);
+                    user_org.saveInBackground();
+
+                    //Add this user to the org
+                    mListener.onDialogMakeTeamSuccess(org);
+                } else {
+                    // The save failed.
+                    mListener.onDialogMakeTeamFailure("Sorry, we couldn't create that team for you right now, try again later");
+                }
+            }
+        });
     }
 
     public void join(DialogInterface dialog){
@@ -100,25 +134,48 @@ public class PopUpFragment extends DialogFragment {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(objects != null && objects.size() > 0){
-                    //add person to the class
-                    ParseObject org = objects.get(0);
-                    ParseUser user = ParseUser.getCurrentUser();
+                if (objects != null && objects.size() > 0) {
+                    //Get user and organization
+                    final ParseObject org = objects.get(0);
+                    final ParseUser user = ParseUser.getCurrentUser();
 
-                    ParseObject user_org = new ParseObject("UserOrg");
-                    user_org.put("user_id", user);
-                    user_org.put("org_id", org);
-                    user_org.saveInBackground();
+                    //Check if user is already in this org
+                    ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserOrg");
+                    query2.whereEqualTo("org_id", org);
+                    query2.whereEqualTo("user_id", user);
+
+                    query2.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (objects != null && objects.size() > 0) {
+                                mListener.onDialogJoinTeamFailure("You've already joined that team");
+                            } else {
+                                //Add user to org
+                                ParseObject user_org = new ParseObject("UserOrg");
+                                user_org.put("user_id", user);
+                                user_org.put("org_id", org);
+                                user_org.saveInBackground();
+                                mListener.onDialogJoinTeamSuccess(org);
+                            }
+                        }
+                    });
+                } else {
+                    mListener.onDialogJoinTeamFailure("Sorry, we couldn't add you to this team right now, try again later");
                 }
-                else {
-//                    Toast.makeText(getActivity(), "Sorry, that doesn't match anything we have.",
-//                            Toast.LENGTH_LONG).show();
-                }
-//                listener.getTagsByNameCallback(tagname, objects);
             }
         });
+    }
 
+    private int generateJoinCode(ParseObject org)
+    {
+        char[] id = org.getObjectId().toCharArray();
+        int code = 1;
 
+        for(char c: id)
+        {
+            code *= c;
+        }
 
+        return code % MAX_JOIN_CODE;
     }
 }

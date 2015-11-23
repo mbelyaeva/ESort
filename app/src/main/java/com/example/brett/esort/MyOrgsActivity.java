@@ -1,5 +1,6 @@
 package com.example.brett.esort;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Intent;
@@ -31,7 +32,7 @@ import com.parse.ParseUser;
 import java.util.List;
 
 public class MyOrgsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PopUpFragment.PopupDialogListener{
 
     private OrgsListAdapter mAdapter;
     public String popUp;
@@ -80,10 +81,15 @@ public class MyOrgsActivity extends AppCompatActivity
 
                     for(ParseObject object : objects)
                     {
-                        //ParseObject org = new ParseObject("Organization");
-                        mAdapter.addItem("Class");
+                        ParseObject org = object.getParseObject("org_id");
+                        try {
+                            org.fetchIfNeeded();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            Toast.makeText(MyOrgsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+                        mAdapter.addItem(org);
                     }
-                } else {
                 }
             }
         });
@@ -151,5 +157,29 @@ public class MyOrgsActivity extends AppCompatActivity
         Intent intent = new Intent(MyOrgsActivity.this, DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDialogJoinTeamSuccess(ParseObject org) {
+        mAdapter.addItem(org);
+    }
+
+    @Override
+    public void onDialogJoinTeamFailure(String err) {
+        Toast.makeText(MyOrgsActivity.this, err, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogMakeTeamSuccess(ParseObject org) {
+    }
+
+    @Override
+    public void onDialogMakeTeamFailure(String err) {
+        Toast.makeText(MyOrgsActivity.this, err, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogCancel() {
+        //Don't need to do anything.
     }
 }
