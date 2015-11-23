@@ -35,4 +35,9 @@
     <string name="DrawerHeaderAccount">Account</string>
     <string name="DrawerMyTeams">My Teams</string>
     <string name="DrawerTeamsImIn">Teams Im In</string>
+    <string name="title_activity_my_team">MyTeamActivity</string>
+    <string name="title_activity_team_participant">TeamParticipantActivity</string>
+    <string name="title_activity_my_profile">MyProfileActivity</string>
+    <string name="title_activity_sort">SortActivity</string>
+    <string name="title_activity_team_sorted">TeamSortedActivity</string>
 </resources>

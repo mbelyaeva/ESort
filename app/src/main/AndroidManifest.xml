@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.brett.esort" >
+    package="com.example.brett.esort">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,25 +11,41 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".StartActivity" >
-        </activity>
-        <activity android:name=".LoginActivity" >
-        </activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".StartActivity" />
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".MyOrgsActivity"
             android:label="@string/title_activity_my_orgs"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".SignupActivity" >
-        </activity>
-        <activity android:name=".DispatchActivity" >
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".DispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MyTeamActivity"
+            android:label="@string/title_activity_my_team"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TeamParticipantActivity"
+            android:label="@string/title_activity_team_participant"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_my_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SortActivity"
+            android:label="@string/title_activity_sort"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TeamSortedActivity"
+            android:label="@string/title_activity_team_sorted"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
