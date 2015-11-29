@@ -25,8 +25,8 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-public class TeamParticipantActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class TeamOwnerActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private UserListAdapter mAdapter;
     Organization mOrg;
@@ -34,7 +34,7 @@ public class TeamParticipantActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_participant);
+        setContentView(R.layout.activity_team_owner);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,7 +82,7 @@ public class TeamParticipantActivity extends AppCompatActivity
                             user.fetchIfNeeded();
                         } catch (ParseException e1) {
                             e1.printStackTrace();
-                            Toast.makeText(TeamParticipantActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TeamOwnerActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                         mAdapter.addItem(user);
                     }
@@ -90,7 +90,6 @@ public class TeamParticipantActivity extends AppCompatActivity
             }
         });
     }
-
 
     @Override
     public void onBackPressed() {
@@ -126,9 +125,8 @@ public class TeamParticipantActivity extends AppCompatActivity
 
     private void doLogout() {
         ParseUser.logOut();
-        Intent intent = new Intent(TeamParticipantActivity.this, DispatchActivity.class);
+        Intent intent = new Intent(TeamOwnerActivity.this, DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
 }

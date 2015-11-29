@@ -11,10 +11,6 @@
     <string name="SignUpLabel">Sign Up</string>
     <string name="title_activity_my_orgs">My Organizations</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
 
@@ -33,9 +29,8 @@
     <string name="DrawerMenuSettings">Settings</string>
     <string name="DrawerMenuLogout">Logout</string>
     <string name="DrawerHeaderAccount">Account</string>
-    <string name="DrawerMyTeams">My Teams</string>
-    <string name="DrawerTeamsImIn">Teams Im In</string>
-    <string name="title_activity_my_team">MyTeamActivity</string>
+    <string name="DrawerMyTeams">Owned Teams</string>
+    <string name="DrawerTeamsImIn">Joined Teams</string>
     <string name="title_activity_team_participant">TeamParticipantActivity</string>
     <string name="title_activity_my_profile">MyProfileActivity</string>
     <string name="title_activity_sort">SortActivity</string>

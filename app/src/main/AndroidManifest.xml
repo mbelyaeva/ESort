@@ -27,8 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyTeamActivity"
-            android:label="@string/title_activity_my_team"
+            android:name=".TeamOwnerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TeamParticipantActivity"
@@ -45,7 +44,7 @@
         <activity
             android:name=".TeamSortedActivity"
             android:label="@string/title_activity_team_sorted"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

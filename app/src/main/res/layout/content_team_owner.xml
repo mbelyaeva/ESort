@@ -9,14 +9,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.brett.esort.MyTeamActivity"
-    tools:showIn="@layout/activity_my_team"
+    tools:context="com.example.brett.esort.TeamOwnerActivity"
+    tools:showIn="@layout/app_bar_team_owner"
     android:orientation="vertical">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:id="@+id/listView"
+        android:id="@+id/usersListView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:text="Delete"
             android:id="@+id/delete_button"
-            android:layout_weight="2"
-            />
+            android:layout_weight="2"/>
+
     </LinearLayout>
 
 </RelativeLayout>

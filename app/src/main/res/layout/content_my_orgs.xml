@@ -9,7 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_my_orgs" tools:context="com.example.brett.esort.MyOrgsActivity">
+    tools:showIn="@layout/app_bar_my_orgs"
+    tools:context="com.example.brett.esort.MyOrgsActivity">
 
     <ListView
         android:layout_width="match_parent"

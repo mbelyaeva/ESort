@@ -21,6 +21,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 /**
  * Created by Maria on 11/19/2015.
@@ -30,6 +32,7 @@ public class PopUpFragment extends DialogFragment {
     private String type;
     EditText inputText;
     final int MAX_JOIN_CODE = 999999;
+    final int MIN_JOIN_CODE = 100000;
 
     private PopupDialogListener mListener;
 
@@ -106,7 +109,7 @@ public class PopUpFragment extends DialogFragment {
         inputText = (EditText) ( (AlertDialog)dialog).findViewById(R.id.orgName);
         final ParseObject org = new ParseObject("Organization");
         org.put("name", inputText.getText().toString());
-        org.put("code", generateJoinCode(org));
+        org.put("code", generateJoinCode());
         org.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -114,6 +117,7 @@ public class PopUpFragment extends DialogFragment {
                     ParseObject user_org = new ParseObject("UserOrg");
                     user_org.put("user_id", ParseUser.getCurrentUser());
                     user_org.put("org_id", org);
+                    user_org.put("is_owner", true);
                     user_org.saveInBackground();
 
                     //Add this user to the org
@@ -126,7 +130,7 @@ public class PopUpFragment extends DialogFragment {
         });
     }
 
-    public void join(DialogInterface dialog){
+    public void join(DialogInterface dialog) {
         inputText = (EditText) ( (AlertDialog)dialog ).findViewById(R.id.joinCode);
         //check that this passcode exists
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Organization");
@@ -154,6 +158,7 @@ public class PopUpFragment extends DialogFragment {
                                 ParseObject user_org = new ParseObject("UserOrg");
                                 user_org.put("user_id", user);
                                 user_org.put("org_id", org);
+                                user_org.put("false", true);
                                 user_org.saveInBackground();
                                 mListener.onDialogJoinTeamSuccess(org);
                             }
@@ -166,16 +171,27 @@ public class PopUpFragment extends DialogFragment {
         });
     }
 
-    private int generateJoinCode(ParseObject org)
-    {
-        char[] id = org.getObjectId().toCharArray();
-        int code = 1;
+    private int generateJoinCode() {
+        Random randomGenerator = new Random();
+        boolean isUnique = false;
+        int tries = 0;
+        int code = 0;
 
-        for(char c: id)
-        {
-            code *= c;
+        while(!isUnique) {
+            code = randomGenerator.nextInt(MAX_JOIN_CODE - MIN_JOIN_CODE) + MIN_JOIN_CODE;
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Organization");
+            query.whereEqualTo("code", code);
+            try {
+                List<ParseObject> objects = query.find();
+                if (objects == null || objects.size() == 0) {
+                    isUnique = true;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
-        return code % MAX_JOIN_CODE;
+        return code;
     }
 }

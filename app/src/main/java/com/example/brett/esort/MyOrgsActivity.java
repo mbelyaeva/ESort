@@ -64,11 +64,31 @@ public class MyOrgsActivity extends AppCompatActivity
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ParseObject orgPO = (ParseObject)adapterView.getItemAtPosition(i);
+                final Organization org = new Organization(orgPO);
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("UserOrg");
+                query.whereEqualTo("org_id", orgPO);
+                query.whereEqualTo("user_id", ParseUser.getCurrentUser());
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (objects != null && objects.size() > 0) {
+                            ParseObject obj = objects.get(0);
 
-                String tvShowPicked = "You selected " +
-                        String.valueOf(adapterView.getItemAtPosition(i));
+                            if (obj.getBoolean("is_owner")) {
+                                Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamOwnerActivity.class);
+                                classDetailsIntent.putExtra("org", org);
+                                startActivity(classDetailsIntent);
+                            } else {
+                                Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamParticipantActivity.class);
+                                classDetailsIntent.putExtra("org", org);
+                                startActivity(classDetailsIntent);
+                            }
+                        }
+                    }
+                });
 
-                Toast.makeText(MyOrgsActivity.this, tvShowPicked, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -171,6 +191,7 @@ public class MyOrgsActivity extends AppCompatActivity
 
     @Override
     public void onDialogMakeTeamSuccess(ParseObject org) {
+        mAdapter.addItem(org);
     }
 
     @Override
