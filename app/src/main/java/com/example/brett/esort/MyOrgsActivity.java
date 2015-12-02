@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -35,6 +36,8 @@ public class MyOrgsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopUpFragment.PopupDialogListener{
 
     private OrgsListAdapter mAdapter;
+    private long mLastClickTime = 0;
+
     public String popUp;
 
     @Override
@@ -64,6 +67,12 @@ public class MyOrgsActivity extends AppCompatActivity
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 ParseObject orgPO = (ParseObject)adapterView.getItemAtPosition(i);
                 final Organization org = new Organization(orgPO);
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("UserOrg");
@@ -163,7 +172,18 @@ public class MyOrgsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_logout) {
+        if(id == R.id.nav_profile) {
+            ParseObject userPO = (ParseObject)ParseUser.getCurrentUser();
+            User user = new User(userPO);
+            Intent profileIntent = new Intent(MyOrgsActivity.this, ProfileActivity.class);
+            profileIntent.putExtra("user", user);
+            startActivity(profileIntent);
+        } else if(id == R.id.nav_joined_teams) {
+
+        } else if(id == R.id.nav_owned_teams) {
+
+        }
+        else if (id == R.id.nav_logout) {
             doLogout();
         }
 

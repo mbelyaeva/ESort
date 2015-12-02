@@ -39,16 +39,24 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void doSignup() {
+
         String username = emailField.getText().toString().trim();
         String password = passField.getText().toString().trim();
         String passwordAgain = confirmPassField.getText().toString().trim();
 
         boolean validationError = false;
-        StringBuilder validationErrorMessage = new StringBuilder(getString(R.string.error_intro));
+        StringBuilder validationErrorMessage = new StringBuilder();
+
         if (username.length() == 0) {
             validationError = true;
             validationErrorMessage.append(getString(R.string.error_blank_username));
         }
+
+        if (!isValidEmail(username)) {
+            validationError = true;
+            validationErrorMessage.append(getString(R.string.error_invalid_email));
+        }
+
         if (password.length() == 0) {
             validationError = true;
             validationErrorMessage.append(getString(R.string.error_blank_password));
@@ -101,6 +109,12 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null)
+            return false;
+
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

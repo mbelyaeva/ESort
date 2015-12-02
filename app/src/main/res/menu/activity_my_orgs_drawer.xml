@@ -4,15 +4,15 @@
     <item android:title="@string/DrawerHeaderAccount">
         <menu>
             <item
-                android:id="@+id/nav_settings"
+                android:id="@+id/nav_profile"
                 android:icon="@android:drawable/ic_menu_share"
-                android:title="@string/DrawerMenuSettings" />
+                android:title="@string/DrawerMenuProfile" />
             <item
-                android:id="@+id/nav_my_teams"
+                android:id="@+id/nav_owned_teams"
                 android:icon="@android:drawable/ic_menu_share"
                 android:title="@string/DrawerMyTeams" />
             <item
-                android:id="@+id/nav_team_im_in"
+                android:id="@+id/nav_joined_teams"
                 android:icon="@android:drawable/ic_menu_share"
                 android:title="@string/DrawerTeamsImIn" />
 

@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Name"
-        android:id="@+id/textView2"
+        android:text=""
+        android:id="@+id/profileNameText"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"/>
 
@@ -34,15 +34,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Style: "
-            android:id="@+id/textView3" />
+            android:text="@string/StyleHeader"
+            android:id="@+id/styleHeaderText" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Relational"
-            android:id="@+id/textView4" />
+            android:text=""
+            android:id="@+id/styleText" />
     </LinearLayout>
 
     <ListView

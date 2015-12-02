@@ -62,7 +62,12 @@ public class TeamParticipantActivity extends AppCompatActivity
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ParseObject userPO = (ParseObject)adapterView.getItemAtPosition(i);
+                User user = new User(userPO);
 
+                Intent profileIntent = new Intent(TeamParticipantActivity.this, ProfileActivity.class);
+                profileIntent.putExtra("user", user);
+                startActivity(profileIntent);
             }
         });
 
@@ -100,13 +105,6 @@ public class TeamParticipantActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_orgs, menu);
-        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

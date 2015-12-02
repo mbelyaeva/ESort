@@ -62,7 +62,12 @@ public class TeamOwnerActivity extends AppCompatActivity
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ParseObject userPO = (ParseObject)adapterView.getItemAtPosition(i);
+                User user = new User(userPO);
 
+                Intent profileIntent = new Intent(TeamOwnerActivity.this, ProfileActivity.class);
+                profileIntent.putExtra("user", user);
+                startActivity(profileIntent);
             }
         });
 
@@ -101,20 +106,24 @@ public class TeamOwnerActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_orgs, menu);
-        return true;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_logout) {
+        if(id == R.id.nav_profile) {
+            ParseObject userPO = (ParseObject)ParseUser.getCurrentUser();
+            User user = new User(userPO);
+            Intent profileIntent = new Intent(TeamOwnerActivity.this, ProfileActivity.class);
+            profileIntent.putExtra("user", user);
+            startActivity(profileIntent);
+        } else if(id == R.id.nav_joined_teams) {
+
+        } else if(id == R.id.nav_owned_teams) {
+
+        }
+        else if (id == R.id.nav_logout) {
             doLogout();
         }
 

@@ -18,15 +18,16 @@
 
     <string name="action_Join">Join</string>
     <string name="action_Make">Make</string>
-    <string name="error_intro">Something Went Wrong</string>
-    <string name="error_blank_username">Username is Required</string>
-    <string name="error_blank_password">Password is Required</string>
-    <string name="error_blank_confirm">Please Confirm Your Password</string>
-    <string name="error_mismatched_passwords">Passwords Do Not Match</string>
+
+    <string name="error_blank_username">Username is Required\n</string>
+    <string name="error_blank_password">Password is Required\n</string>
+    <string name="error_blank_confirm">Please Confirm Your Password\n</string>
+    <string name="error_mismatched_passwords">Passwords Do Not Match\n</string>
+
     <string name="ApplicationId">Py4qIlkam7AMV9kJD2JJUSvEZ37txStfYucXATOu</string>
     <string name="ClientKey">UkSXqKtavufn4cmf6baJ9PUK8cKU1wnPtL3MqcxT</string>
 
-    <string name="DrawerMenuSettings">Settings</string>
+    <string name="DrawerMenuProfile">Profile</string>
     <string name="DrawerMenuLogout">Logout</string>
     <string name="DrawerHeaderAccount">Account</string>
     <string name="DrawerMyTeams">Owned Teams</string>
@@ -35,4 +36,6 @@
     <string name="title_activity_my_profile">MyProfileActivity</string>
     <string name="title_activity_sort">SortActivity</string>
     <string name="title_activity_team_sorted">TeamSortedActivity</string>
+    <string name="StyleHeader">Style: </string>
+    <string name="error_invalid_email">Invalid Email Address</string>
 </resources>

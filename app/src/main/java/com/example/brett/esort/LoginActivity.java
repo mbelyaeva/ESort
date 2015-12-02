@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passField.getText().toString().trim();
 
         boolean validationError = false;
-        StringBuilder validationErrorMessage = new StringBuilder(getString(R.string.error_intro));
+        StringBuilder validationErrorMessage = new StringBuilder();
         if (username.length() == 0) {
             validationError = true;
             validationErrorMessage.append(getString(R.string.error_blank_username));
