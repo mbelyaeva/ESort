@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class TeamSortedActivity extends AppCompatActivity {
+public class TeamSortedActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

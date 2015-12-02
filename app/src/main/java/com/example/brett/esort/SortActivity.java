@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class SortActivity extends AppCompatActivity {
+public class SortActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,5 +16,4 @@ public class SortActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
-
 }

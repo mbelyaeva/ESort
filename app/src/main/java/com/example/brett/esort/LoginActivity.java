@@ -14,7 +14,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AbstractActivity {
 
 
     TextView emailField;

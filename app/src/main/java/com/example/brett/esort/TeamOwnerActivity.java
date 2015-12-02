@@ -25,8 +25,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-public class TeamOwnerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class TeamOwnerActivity extends AbstractDrawerActivity {
 
     private UserListAdapter mAdapter;
     Organization mOrg;
@@ -35,28 +34,15 @@ public class TeamOwnerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_owner);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        InitDrawer();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //
         Intent orgIntent = getIntent();
         mOrg = (Organization) orgIntent.getSerializableExtra("org");
         setTitle(mOrg.getName());
 
         mAdapter = new UserListAdapter(this);
 
-        // ListViews display data in a scrollable list
         ListView theListView = (ListView) findViewById(R.id.usersListView);
-
-        // Tells the ListView what data to use
         theListView.setAdapter(mAdapter);
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,48 +80,5 @@ public class TeamOwnerActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if(id == R.id.nav_profile) {
-            ParseObject userPO = (ParseObject)ParseUser.getCurrentUser();
-            User user = new User(userPO);
-            Intent profileIntent = new Intent(TeamOwnerActivity.this, ProfileActivity.class);
-            profileIntent.putExtra("user", user);
-            startActivity(profileIntent);
-        } else if(id == R.id.nav_joined_teams) {
-
-        } else if(id == R.id.nav_owned_teams) {
-
-        }
-        else if (id == R.id.nav_logout) {
-            doLogout();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void doLogout() {
-        ParseUser.logOut();
-        Intent intent = new Intent(TeamOwnerActivity.this, DispatchActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 }

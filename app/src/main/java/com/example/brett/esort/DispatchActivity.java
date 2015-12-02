@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.parse.ParseUser;
 
-public class DispatchActivity extends AppCompatActivity {
+public class DispatchActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

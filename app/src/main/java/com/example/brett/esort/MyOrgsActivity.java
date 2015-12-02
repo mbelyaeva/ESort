@@ -32,7 +32,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-public class MyOrgsActivity extends AppCompatActivity
+public class MyOrgsActivity extends AbstractDrawerActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopUpFragment.PopupDialogListener{
 
     private OrgsListAdapter mAdapter;
@@ -44,24 +44,10 @@ public class MyOrgsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_orgs);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        InitDrawer();
 
         mAdapter = new OrgsListAdapter(this);
-
-        // ListViews display data in a scrollable list
         ListView theListView = (ListView) findViewById(R.id.myOrgsList);
-
-        // Tells the ListView what data to use
         theListView.setAdapter(mAdapter);
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,8 +94,7 @@ public class MyOrgsActivity extends AppCompatActivity
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null && objects.size() > 0) {
 
-                    for(ParseObject object : objects)
-                    {
+                    for (ParseObject object : objects) {
                         ParseObject org = object.getParseObject("org_id");
                         try {
                             org.fetchIfNeeded();
@@ -122,16 +107,6 @@ public class MyOrgsActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -166,39 +141,6 @@ public class MyOrgsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if(id == R.id.nav_profile) {
-            ParseObject userPO = (ParseObject)ParseUser.getCurrentUser();
-            User user = new User(userPO);
-            Intent profileIntent = new Intent(MyOrgsActivity.this, ProfileActivity.class);
-            profileIntent.putExtra("user", user);
-            startActivity(profileIntent);
-        } else if(id == R.id.nav_joined_teams) {
-
-        } else if(id == R.id.nav_owned_teams) {
-
-        }
-        else if (id == R.id.nav_logout) {
-            doLogout();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void doLogout() {
-        ParseUser.logOut();
-        Intent intent = new Intent(MyOrgsActivity.this, DispatchActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     @Override
     public void onDialogJoinTeamSuccess(ParseObject org) {
         mAdapter.addItem(org);
@@ -208,7 +150,6 @@ public class MyOrgsActivity extends AppCompatActivity
     public void onDialogJoinTeamFailure(String err) {
         Toast.makeText(MyOrgsActivity.this, err, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onDialogMakeTeamSuccess(ParseObject org) {
         mAdapter.addItem(org);
@@ -218,7 +159,6 @@ public class MyOrgsActivity extends AppCompatActivity
     public void onDialogMakeTeamFailure(String err) {
         Toast.makeText(MyOrgsActivity.this, err, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onDialogCancel() {
         //Don't need to do anything.

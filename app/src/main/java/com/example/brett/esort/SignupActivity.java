@@ -13,7 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends AbstractActivity {
 
     EditText emailField;
     EditText passField;
