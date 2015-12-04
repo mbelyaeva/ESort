@@ -25,6 +25,10 @@ public class UserListAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public ArrayList getAllItems() {
+        return mData;
+    }
+
     public void addItem(final ParseObject item) {
         mData.add(item);
         notifyDataSetChanged();

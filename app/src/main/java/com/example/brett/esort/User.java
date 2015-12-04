@@ -4,6 +4,7 @@ import com.parse.ParseObject;
 
 import java.io.Serializable;
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public class User implements Serializable {
         firstName = user.getString("firstName");
         lastName = user.getString("lastName");
         traits = user.getList("traits");
+        if(traits == null)
+            traits = new ArrayList<String>();
         style = user.getString("style");
         if(style == null)
             style = "Not Set";

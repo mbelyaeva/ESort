@@ -170,6 +170,12 @@ public class MyOrgsActivity extends AbstractDrawerActivity
     public void onDialogMakeTeamFailure(String err) {
         Toast.makeText(MyOrgsActivity.this, err, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onDialogSort(int numItems) {
+        //ignore
+    }
+
     @Override
     public void onDialogCancel() {
         //Don't need to do anything.

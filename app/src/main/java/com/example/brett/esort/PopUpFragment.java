@@ -41,6 +41,7 @@ public class PopUpFragment extends DialogFragment {
         void onDialogJoinTeamFailure(String err);
         void onDialogMakeTeamSuccess(ParseObject org);
         void onDialogMakeTeamFailure(String err);
+        void onDialogSort(int numItems);
         void onDialogCancel();
     }
 
@@ -73,8 +74,10 @@ public class PopUpFragment extends DialogFragment {
         }
         else if(type.equals("join")) {
             layout_id = R.layout.popup_join;
-        } else {
+        } else if(type.equals("make")) {
             layout_id = R.layout.popup_make;
+        } else {
+            layout_id = R.layout.popup_sort;
         }
 
 
@@ -88,6 +91,8 @@ public class PopUpFragment extends DialogFragment {
                 }
                 else if(type.equals("join")) {
                     join(dialog);
+                } else if(type.equals("sort")) {
+                    sort(dialog);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Something went wrong",
                             Toast.LENGTH_LONG).show();
@@ -193,5 +198,10 @@ public class PopUpFragment extends DialogFragment {
         }
 
         return code;
+    }
+
+    public void sort(DialogInterface dialog) {
+        inputText = (EditText) ( (AlertDialog)dialog).findViewById(R.id.numTeams);
+        mListener.onDialogSort(Integer.parseInt(inputText.getText().toString()));
     }
 }

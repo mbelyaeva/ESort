@@ -23,9 +23,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TeamOwnerActivity extends AbstractDrawerActivity {
+public class TeamOwnerActivity extends AbstractDrawerActivity implements PopUpFragment.PopupDialogListener {
 
     private UserListAdapter mAdapter;
     Organization mOrg;
@@ -80,5 +81,46 @@ public class TeamOwnerActivity extends AbstractDrawerActivity {
                 }
             }
         });
+    }
+
+    public void onSortClick(View view){
+        //ArrayList members = mAdapter.getAllItems();
+
+        PopUpFragment popUp = new PopUpFragment();
+        Bundle typeBundle = new Bundle();
+
+        typeBundle.putString("type", "sort");
+        popUp.setArguments(typeBundle);
+        popUp.show(getFragmentManager(), "");
+    }
+
+    @Override
+    public void onDialogJoinTeamSuccess(ParseObject org) {
+
+    }
+
+    @Override
+    public void onDialogJoinTeamFailure(String err) {
+
+    }
+
+    @Override
+    public void onDialogMakeTeamSuccess(ParseObject org) {
+
+    }
+
+    @Override
+    public void onDialogMakeTeamFailure(String err) {
+
+    }
+
+    @Override
+    public void onDialogCancel() {
+
+    }
+
+    @Override
+    public void onDialogSort(int numItems) {
+
     }
 }
