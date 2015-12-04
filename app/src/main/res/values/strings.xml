@@ -52,4 +52,17 @@
         <item>Strategic</item>
     </string-array>
 
+    <string-array name="traits_array">
+        <item>Disruptor</item>
+        <item>Relationship</item>
+        <item>Selling</item>
+        <item>Risk</item>
+        <item>Determination</item>
+        <item>Knowledge</item>
+        <item>Confidence</item>
+        <item>Delegator</item>
+        <item>Profitability</item>
+        <item>Independence</item>
+    </string-array>
+
 </resources>
