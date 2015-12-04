@@ -17,12 +17,11 @@ import com.parse.ParseUser;
 /**
  * Created by Brett on 12/1/2015.
  */
-public abstract class AbstractDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class AbstractDrawerActivity extends AbstractActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     protected void InitDrawer()

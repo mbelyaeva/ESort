@@ -61,8 +61,14 @@ public class MyOrgsActivity extends AbstractDrawerActivity
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
 
-                if(i == adapterView.getCount() - 1)
+                if(i == adapterView.getCount() - 1) {
+                    PopUpFragment popUp = new PopUpFragment();
+                    Bundle typeBundle = new Bundle();
+                    typeBundle.putString("type", "join");
+                    popUp.setArguments(typeBundle);
+                    popUp.show(getFragmentManager(), "");
                     return;
+                }
 
                 ParseObject orgPO = (ParseObject)adapterView.getItemAtPosition(i);
                 final Organization org = new Organization(orgPO);

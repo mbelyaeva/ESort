@@ -29,7 +29,7 @@
             android:textSize="20sp"
             android:padding="1dp"
             android:layout_margin="5dp"
-            android:text="Add Organization"
+            android:text="@string/joinOrg"
             />
 
     </LinearLayout>

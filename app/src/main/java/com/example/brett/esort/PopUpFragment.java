@@ -158,7 +158,7 @@ public class PopUpFragment extends DialogFragment {
                                 ParseObject user_org = new ParseObject("UserOrg");
                                 user_org.put("user_id", user);
                                 user_org.put("org_id", org);
-                                user_org.put("false", true);
+                                user_org.put("is_owner", false);
                                 user_org.saveInBackground();
                                 mListener.onDialogJoinTeamSuccess(org);
                             }
