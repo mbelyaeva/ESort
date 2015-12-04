@@ -44,4 +44,12 @@
     <string name="nextText">Next</string>
     <string name="changeLaterText">You can change this information later</string>
     <string name="joinOrg">Join Organization</string>
+    <string name="Action_Edit">Edit</string>
+
+    <string-array name="styles_array">
+        <item>Activation</item>
+        <item>Relational</item>
+        <item>Strategic</item>
+    </string-array>
+
 </resources>
