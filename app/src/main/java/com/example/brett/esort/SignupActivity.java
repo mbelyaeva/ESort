@@ -2,6 +2,7 @@ package com.example.brett.esort;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.util.List;
 
 public class SignupActivity extends AbstractActivity {
 
@@ -19,6 +26,8 @@ public class SignupActivity extends AbstractActivity {
     EditText passField;
     EditText confirmPassField;
     Button submitButton;
+
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,10 @@ public class SignupActivity extends AbstractActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 doSignup();
             }
         });
@@ -40,9 +53,9 @@ public class SignupActivity extends AbstractActivity {
 
     private void doSignup() {
 
-        String username = emailField.getText().toString().trim();
-        String password = passField.getText().toString().trim();
-        String passwordAgain = confirmPassField.getText().toString().trim();
+        final String username = emailField.getText().toString().trim();
+        final String password = passField.getText().toString().trim();
+        final String passwordAgain = confirmPassField.getText().toString().trim();
 
         boolean validationError = false;
         StringBuilder validationErrorMessage = new StringBuilder();
@@ -78,37 +91,32 @@ public class SignupActivity extends AbstractActivity {
             return;
         }
 
-        // Set up and start a progress dialog
         final ProgressDialog pd = new ProgressDialog(SignupActivity.this);
         pd.setMessage("loading");
         pd.show();
 
-        // Set up a new Parse user
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        // Call the Parse signup method
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-
-                // Dismiss the dialog
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", username);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
                 pd.hide();
-
-                if (e != null) {
-                    // Show the error message
-                    Toast.makeText(SignupActivity.this, e.getMessage(),
-                            Toast.LENGTH_LONG).show();
+                if (e == null) {
+                    Toast.makeText(SignupActivity.this, "Email already in use", Toast.LENGTH_LONG)
+                            .show();
                 } else {
-                    // Start an intent for the dispatch activity
-                    Intent intent = new Intent(SignupActivity.this, DispatchActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        Intent detailsIntent = new Intent(SignupActivity.this, SignupDetailsActivity.class);
+                        detailsIntent.putExtra("email", username);
+                        detailsIntent.putExtra("password", password);
+                        startActivity(detailsIntent);
+                    } else {
+                        Toast.makeText(SignupActivity.this, "An unknown error has occurred", Toast.LENGTH_LONG)
+                                .show();
+                    }
                 }
-
             }
         });
+
     }
 
     public final static boolean isValidEmail(CharSequence target) {

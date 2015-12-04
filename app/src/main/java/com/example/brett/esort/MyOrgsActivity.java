@@ -48,6 +48,8 @@ public class MyOrgsActivity extends AbstractDrawerActivity
 
         mAdapter = new OrgsListAdapter(this);
         ListView theListView = (ListView) findViewById(R.id.myOrgsList);
+        View v = getLayoutInflater().inflate(R.layout.add_org_footer, null);
+        theListView.addFooterView(v);
         theListView.setAdapter(mAdapter);
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,6 +60,9 @@ public class MyOrgsActivity extends AbstractDrawerActivity
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
+
+                if(i == adapterView.getCount() - 1)
+                    return;
 
                 ParseObject orgPO = (ParseObject)adapterView.getItemAtPosition(i);
                 final Organization org = new Organization(orgPO);

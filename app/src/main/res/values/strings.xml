@@ -37,5 +37,11 @@
     <string name="title_activity_sort">SortActivity</string>
     <string name="title_activity_team_sorted">TeamSortedActivity</string>
     <string name="StyleHeader">Style: </string>
-    <string name="error_invalid_email">Invalid Email Address</string>
+    <string name="error_invalid_email">Invalid Email Address\n</string>
+    <string name="accountDetailsLabel">Account Details</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="nextText">Next</string>
+    <string name="changeLaterText">You can change this information later</string>
+    <string name="addOrgText">+ Add Organization</string>
 </resources>

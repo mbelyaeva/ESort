@@ -37,11 +37,11 @@ public class PopUpFragment extends DialogFragment {
     private PopupDialogListener mListener;
 
     public interface PopupDialogListener {
-        public void onDialogJoinTeamSuccess(ParseObject org);
-        public void onDialogJoinTeamFailure(String err);
-        public void onDialogMakeTeamSuccess(ParseObject org);
-        public void onDialogMakeTeamFailure(String err);
-        public void onDialogCancel();
+        void onDialogJoinTeamSuccess(ParseObject org);
+        void onDialogJoinTeamFailure(String err);
+        void onDialogMakeTeamSuccess(ParseObject org);
+        void onDialogMakeTeamFailure(String err);
+        void onDialogCancel();
     }
 
     @Override
