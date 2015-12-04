@@ -33,7 +33,7 @@
     <string name="DrawerMyTeams">Owned Teams</string>
     <string name="DrawerTeamsImIn">Joined Teams</string>
     <string name="title_activity_team_participant">TeamParticipantActivity</string>
-    <string name="title_activity_my_profile">MyProfileActivity</string>
+    <string name="title_activity_my_profile">Profile</string>
     <string name="title_activity_sort">SortActivity</string>
     <string name="title_activity_team_sorted">TeamSortedActivity</string>
     <string name="StyleHeader">Style:\u0020</string>
@@ -42,7 +42,7 @@
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="nextText">Next</string>
-    <string name="changeLaterText">You can change this information later</string>
+    <string name="changeLaterText">You can change this information later.</string>
     <string name="joinOrg">Join Organization</string>
     <string name="Action_Edit">Edit</string>
 
