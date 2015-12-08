@@ -3,6 +3,7 @@ package com.example.brett.esort;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -24,12 +25,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyOrgsActivity extends AbstractDrawerActivity
@@ -81,14 +84,22 @@ public class MyOrgsActivity extends AbstractDrawerActivity
                         if (objects != null && objects.size() > 0) {
                             ParseObject obj = objects.get(0);
 
-                            if (obj.getBoolean("is_owner")) {
-                                Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamOwnerActivity.class);
-                                classDetailsIntent.putExtra("org", org);
-                                startActivity(classDetailsIntent);
+                            if(!org.isSorted()) {
+                                if (obj.getBoolean("is_owner")) {
+                                    Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamOwnerActivity.class);
+                                    classDetailsIntent.putExtra("org", org);
+                                    startActivity(classDetailsIntent);
+                                } else {
+                                    Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamParticipantActivity.class);
+                                    classDetailsIntent.putExtra("org", org);
+                                    startActivity(classDetailsIntent);
+                                }
                             } else {
-                                Intent classDetailsIntent = new Intent(MyOrgsActivity.this, TeamParticipantActivity.class);
-                                classDetailsIntent.putExtra("org", org);
-                                startActivity(classDetailsIntent);
+                                if (obj.getBoolean("is_owner")) {
+                                    goToSortedTeams(org);
+                                } else {
+                                    goToSortedTeams(org);
+                                }
                             }
                         }
                     }
@@ -114,6 +125,62 @@ public class MyOrgsActivity extends AbstractDrawerActivity
                             Toast.makeText(MyOrgsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                         mAdapter.addItem(org);
+                    }
+                }
+            }
+        });
+    }
+
+    private void goToSortedTeams(final Organization org) {
+
+
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("loading");
+        pd.show();
+
+        final ArrayList<ArrayList<User>> teamsList = new ArrayList<>();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+        query.whereEqualTo("org", ParseObject.createWithoutData("Organization", org.getId()));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> teams, ParseException e) {
+                if (teams != null && teams.size() > 0) {
+
+                    final int numTeams = teams.size();
+
+                    for (ParseObject team : teams) {
+
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTeam");
+                        query.whereEqualTo("teamId", ParseObject.createWithoutData("Team", team.getObjectId()));
+                        query.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> users, ParseException e) {
+                                if (users != null && users.size() > 0) {
+                                    ArrayList<User> l = new ArrayList<>();
+
+                                    for (ParseObject user : users) {
+                                        ParseObject u = user.getParseObject("userId");
+                                        try {
+                                            u.fetchIfNeeded();
+                                            l.add(new User(u));
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    }
+                                    teamsList.add(l);
+
+                                    if (teamsList.size() == numTeams) {
+                                        pd.hide();
+                                        Intent sortedTeam = new Intent(MyOrgsActivity.this, TeamSortedActivity.class);
+                                        sortedTeam.putExtra("org", org);
+                                        sortedTeam.putExtra("teams", teamsList);
+                                        startActivity(sortedTeam);
+                                    }
+                                }
+                            }
+                        });
+
                     }
                 }
             }

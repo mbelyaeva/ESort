@@ -1,17 +1,8 @@
 package com.example.brett.esort;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,6 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +50,10 @@ public class TeamOwnerActivity extends AbstractDrawerActivity implements PopUpFr
             }
         });
 
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("loading");
+        pd.show();
+
         ParseQuery<ParseObject> innerQ = ParseQuery.getQuery("Organization");
         innerQ.whereEqualTo("objectId", mOrg.getId());
 
@@ -66,6 +62,7 @@ public class TeamOwnerActivity extends AbstractDrawerActivity implements PopUpFr
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
+                pd.hide();
                 if (objects != null && objects.size() > 0) {
 
                     for (ParseObject object : objects) {
@@ -121,6 +118,77 @@ public class TeamOwnerActivity extends AbstractDrawerActivity implements PopUpFr
 
     @Override
     public void onDialogSort(int numItems) {
+
+        if(numItems <= 0 || numItems > mAdapter.getCount()) {
+            Toast.makeText(TeamOwnerActivity.this, "Number of teams must be greater than zero and less than the number of members in the organization", Toast.LENGTH_LONG).show();
+        }
+
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("loading");
+        pd.show();
+
+        ArrayList users = mAdapter.getAllItems();
+
+        final ArrayList<ArrayList<User>> teams = new ArrayList<>();
+
+        for(int i = 0; i < numItems; i++) {
+            ArrayList<User> l = new ArrayList<>();
+            teams.add(l);
+        }
+
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            User u = new User((ParseUser)users.get(i));
+            teams.get(i %  numItems).add(u);
+        }
+
+        final List<ParseObject> parseTeams = new ArrayList<>();
+        final List<ParseObject> parseUsers = new ArrayList<>();
+        ParseObject org = ParseObject.createWithoutData("Organization", mOrg.getId());
+
+        int i = 1;
+        for(ArrayList<User> team : teams) {
+            ParseObject parseTeam = new ParseObject("Team");
+            parseTeam.put("name", "Team " + i++);
+            parseTeam.put("org", org);
+
+            parseTeams.add(parseTeam);
+
+            for(User user : team) {
+                ParseObject parseUser = new ParseObject("UserTeam");
+                parseUser.put("userId", ParseUser.createWithoutData(ParseUser.class, user.getId()));
+                parseUser.put("teamId", parseTeam);
+                parseUsers.add(parseUser);
+            }
+        }
+
+        ParseObject.saveAllInBackground(parseTeams, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    //Save successful, save all users
+                    ParseObject.saveAllInBackground(parseUsers, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                //Save successful, go to sorted activity
+                                pd.hide();
+                                Intent sortIntent = new Intent(TeamOwnerActivity.this, TeamSortedActivity.class);
+                                sortIntent.putExtra("org", mOrg);
+                                sortIntent.putExtra("teams", teams);
+                                startActivity(sortIntent);
+                            } else {
+                                //something went wrong
+                                Toast.makeText(TeamOwnerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                } else {
+                    //something went wrong
+                    Toast.makeText(TeamOwnerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 }

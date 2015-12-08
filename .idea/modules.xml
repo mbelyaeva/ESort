@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ESort.iml" filepath="$PROJECT_DIR$/ESort.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dragndroplist/dragndroplist.iml" filepath="$PROJECT_DIR$/dragndroplist/dragndroplist.iml" />
     </modules>
   </component>
 </project>

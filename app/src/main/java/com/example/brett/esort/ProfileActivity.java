@@ -32,6 +32,7 @@ public class ProfileActivity extends AbstractDrawerActivity {
     private TextView nameTextView;
     private TextView styleTextView;
     private TraitListAdapter mAdapter;
+    private final int ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +62,23 @@ public class ProfileActivity extends AbstractDrawerActivity {
 
     }
 
+    private void updateProfile()
+    {
+        mAdapter.removeItems();
+        for(String s : mUser.getTraits()) {
+            mAdapter.addItem(s);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.profile, menu);
-        return true;
+        if(mUser.getId().equals(ParseUser.getCurrentUser().getObjectId())) {
+            getMenuInflater().inflate(R.menu.profile, menu);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -78,9 +91,19 @@ public class ProfileActivity extends AbstractDrawerActivity {
         if (id == R.id.action_edit) {
             Intent editProfileIntent = new Intent(this, EditProfileActivity.class);
             editProfileIntent.putExtra("user", mUser);
-            startActivity(editProfileIntent);
+            startActivityForResult(editProfileIntent, ID);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            Bundle args = data.getExtras();
+            mUser = (User)args.getSerializable("updated_user");
+            this.updateProfile();
+        }
     }
 }

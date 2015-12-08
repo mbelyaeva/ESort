@@ -12,12 +12,14 @@ public class Organization implements Serializable {
     private String name;
     private String id;
     private int joinCode;
+    private boolean sorted;
 
     public Organization(ParseObject org)
     {
         name = org.getString("name");
         id = org.getObjectId();
         joinCode = org.getInt("code");
+        sorted = org.getBoolean("sorted");
     }
 
     public String getName() {
@@ -42,5 +44,13 @@ public class Organization implements Serializable {
 
     public void setJoinCode(int joinCode) {
         this.joinCode = joinCode;
+    }
+
+    public boolean isSorted() {
+        return sorted;
+    }
+
+    public void setSorted(boolean sorted) {
+        this.sorted = sorted;
     }
 }

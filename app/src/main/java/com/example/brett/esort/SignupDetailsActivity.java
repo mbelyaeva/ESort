@@ -65,6 +65,7 @@ public class SignupDetailsActivity extends AbstractActivity {
         user.setPassword(mPassword);
         user.put("firstName", firstName);
         user.put("lastName", lastName);
+        user.put("setupProfile", false);
 
         // Call the Parse signup method
         user.signUpInBackground(new SignUpCallback() {

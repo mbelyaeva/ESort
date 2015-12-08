@@ -34,6 +34,11 @@ public class TraitListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeItems() {
+        mData.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public long getItemId(int position) {
         return mData.get(position).hashCode();

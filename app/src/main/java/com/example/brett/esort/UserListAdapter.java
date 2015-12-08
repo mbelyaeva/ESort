@@ -53,6 +53,8 @@ public class UserListAdapter extends BaseAdapter {
             return mData.get(position);
             }
 
+    public ArrayList getItems() { return mData; }
+
     protected LinearLayout makeView(LinearLayout theView, int position, ViewGroup parent) {
         ParseObject user = (ParseObject)getItem(position);
 
