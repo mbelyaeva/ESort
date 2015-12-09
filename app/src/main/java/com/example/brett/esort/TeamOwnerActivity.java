@@ -190,5 +190,8 @@ public class TeamOwnerActivity extends AbstractDrawerActivity implements PopUpFr
             }
         });
 
+        ParseObject uOrg = ParseObject.createWithoutData("Organization", mOrg.getId());
+        uOrg.put("sorted", true);
+        uOrg.saveInBackground();
     }
 }
